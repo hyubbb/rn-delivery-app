@@ -7,6 +7,7 @@ import {
   SectionList,
   ListRenderItem,
   ScrollView,
+  SafeAreaView,
 } from "react-native";
 import React, { useLayoutEffect, useRef, useState } from "react";
 import ParallaxScrollView from "@/Components/ParallaxScrollView";
@@ -16,12 +17,13 @@ import Colors from "@/constants/Colors";
 import { restaurant } from "@/assets/data/restaurant";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { Link } from "expo-router";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import useBasketStore from "@/store/basketStore";
+import { Link } from "expo-router";
 
 type itemsProps = {
   id: number;
@@ -46,6 +48,8 @@ const Details = () => {
     data: item.meals,
     index,
   }));
+
+  const { items, total } = useBasketStore();
 
   const selectCategory = (index: number) => {
     const selected = itemsRef.current[index];
@@ -167,6 +171,8 @@ const Details = () => {
           />
         </View>
       </ParallaxScrollView>
+
+      {/* Sticky segments */}
       <Animated.View style={[animatedStyles, styles.stickySegments]}>
         <View style={styles.segmentsShadow}>
           <ScrollView
@@ -200,6 +206,21 @@ const Details = () => {
           </ScrollView>
         </View>
       </Animated.View>
+
+      {/* Footer basket */}
+      {items > 0 && (
+        <View style={styles.footer}>
+          <SafeAreaView>
+            <Link href={"/basket"} asChild>
+              <TouchableOpacity style={styles.fullButton}>
+                <Text style={styles.basket}>{items}</Text>
+                <Text style={styles.footerText}>View Basket</Text>
+                <Text style={styles.basketTotal}>Total: ${total}</Text>
+              </TouchableOpacity>
+            </Link>
+          </SafeAreaView>
+        </View>
+      )}
     </>
   );
 };
@@ -304,6 +325,51 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     alignItems: "center",
     gap: 10,
+  },
+  footer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: "100%",
+    padding: 10,
+    elevation: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -10 },
+    shadowOpacity: 0.04,
+    shadowRadius: 10,
+    backgroundColor: "#fff",
+    paddingTop: 20,
+  },
+
+  footerText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  basket: {
+    padding: 4,
+    paddingHorizontal: 8,
+    backgroundColor: "#19AA86",
+    borderRadius: 8,
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  basketTotal: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  fullButton: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 4,
+    paddingHorizontal: 16,
+    marginHorizontal: 10,
+    borderRadius: 8,
+    height: 50,
+    backgroundColor: Colors.primary,
   },
 });
 

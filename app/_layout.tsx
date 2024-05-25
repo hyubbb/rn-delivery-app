@@ -87,6 +87,21 @@ function RootLayoutNav() {
               ),
             }}
           />
+          <Stack.Screen
+            name='basket'
+            options={{
+              headerTitle: "Basket",
+              headerLeft: () => (
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Ionicons
+                    name='arrow-back'
+                    size={20}
+                    color={Colors.primary}
+                  />
+                </TouchableOpacity>
+              ),
+            }}
+          />
         </Stack>
       </BottomSheetModalProvider>
     </GestureHandlerRootView>

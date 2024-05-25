@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import MapView from "react-native-maps";
 import Colors from "@/constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import * as Location from "expo-location";
 
 type Location = {
   latitude: number;
@@ -66,23 +67,43 @@ const GooglePlacesInput = ({ location, setLocation }) => {
   );
 };
 const LocationSearch = () => {
-  const initLocation = {
-    latitude: 37.551891,
-    longitude: 126.991794,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
-  };
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const navigation = useNavigation();
-  const [location, setLocation] = useState(initLocation);
+  const [location, setLocation] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.004,
+    longitudeDelta: 0.004,
+  });
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      const { latitude, longitude } = location.coords;
+      setLocation({
+        ...location,
+        latitude,
+        longitude,
+        latitudeDelta: 0.004,
+        longitudeDelta: 0.004,
+      });
+    })();
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
       <GooglePlacesInput location={location} setLocation={setLocation} />
       <MapView
         showsUserLocation={true}
-        showsMyLocationButton={true}
         style={styles.map}
         region={location}
+        initialRegion={location}
       />
 
       <View style={styles.absoluteBox}>

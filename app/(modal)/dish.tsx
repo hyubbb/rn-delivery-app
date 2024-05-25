@@ -3,24 +3,33 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Image,
   SafeAreaView,
 } from "react-native";
-import React, { useLayoutEffect } from "react";
-import ParallaxScrollView from "@/Components/ParallaxScrollView";
-import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+import React from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { getDishById } from "@/assets/data/restaurant";
 import Colors from "@/constants/Colors";
 import Animated, { FadeIn, FadeInLeft } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
+import useBasketStore from "@/store/basketStore";
+
+type DishProps = {
+  id: number;
+  name: string;
+  price: number;
+  info: string;
+  img: any;
+};
 
 const Dish = () => {
   const { id } = useLocalSearchParams();
 
   const item = getDishById(+id!);
   const router = useRouter();
-  const addToCart = () => {
+  const { addProduct } = useBasketStore();
+
+  const addToCart = (item: DishProps) => {
+    addProduct(item);
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     router.back();
   };
@@ -48,7 +57,10 @@ const Dish = () => {
           </Animated.Text>
         </View>
         <View style={styles.footer}>
-          <TouchableOpacity style={styles.fullButton} onPress={addToCart}>
+          <TouchableOpacity
+            style={styles.fullButton}
+            onPress={() => addToCart(item!)}
+          >
             <Text style={styles.footerText}>Add for ${item?.price}</Text>
           </TouchableOpacity>
         </View>
