@@ -11,9 +11,9 @@ import React, { useRef } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import { Link } from "expo-router";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet from "./BottomSheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import usePlaceStore from "@/store/placeStore";
 const SearchBar = () => {
   return (
     <View style={styles.searchContainer}>
@@ -43,6 +43,7 @@ const SearchBar = () => {
 
 const CustomHeader = () => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
+  const { address } = usePlaceStore();
   const openModal = () => {
     bottomSheetRef.current?.present();
   };
@@ -59,7 +60,7 @@ const CustomHeader = () => {
         <TouchableOpacity style={styles.titleContainer} onPress={openModal}>
           <Text style={styles.title}>Delivery Now</Text>
           <View style={styles.locationName}>
-            <Text style={styles.subTitle}>Seoul. Korea</Text>
+            <Text style={styles.subTitle}>{address ? address : "미 설정"}</Text>
             <Ionicons name='chevron-down' size={14} color={Colors.primary} />
           </View>
         </TouchableOpacity>

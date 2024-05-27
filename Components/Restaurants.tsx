@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { restaurants } from "@/assets/data/home";
+// import { restaurants } from "@/assets/data/home";
+import { restaurants } from "@/assets/data/restaurant";
 import { ScrollView } from "react-native-gesture-handler";
 import { Link } from "expo-router";
 import Colors from "@/constants/Colors";
+import { Ionicons } from "@expo/vector-icons";
 const Restaurants = () => {
   return (
     <ScrollView
@@ -21,13 +23,18 @@ const Restaurants = () => {
     >
       <View style={styles.container}>
         {restaurants.map((restaurant, index) => (
-          <Link href={"/details"} key={index} asChild>
+          <Link
+            href={{ pathname: "/details", params: { id: index } }}
+            key={index}
+            asChild
+          >
             <TouchableOpacity>
               <View style={styles.categoryCard}>
                 <Image source={restaurant.img} style={styles.image} />
                 <View style={styles.categoryBox}>
                   <Text style={styles.categoryText}>{restaurant.name}</Text>
-                  <Text style={{ color: Colors.green }}>
+                  <Text style={{ color: "#000", fontWeight: "bold" }}>
+                    <Ionicons name='star' size={12} color='#f9f102' />
                     {restaurant.rating} {restaurant.ratings}
                   </Text>
                   <Text style={{ color: Colors.medium }}>

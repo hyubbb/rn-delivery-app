@@ -9,9 +9,9 @@ const Page = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={{ paddingBottom: 90 }}>
         <Categories />
-        <Text style={styles.header}>Top picks in you neighborhood</Text>
+        <Text style={styles.header}>인기 매장</Text>
         <Restaurants />
-        <Text style={styles.header}>Offers near you</Text>
+        <Text style={styles.header}>주변 인기매장</Text>
         <Restaurants />
       </ScrollView>
     </SafeAreaView>

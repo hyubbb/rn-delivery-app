@@ -30,8 +30,7 @@ const ItemBox = () => (
       <TouchableOpacity style={styles.item}>
         <Ionicons name='arrow-down-outline' size={22} color={Colors.medium} />
         <View style={styles.itemText}>
-          <Text>Sort</Text>
-          <Text>ITEM</Text>
+          <Text>Sort ITEM</Text>
         </View>
         <Ionicons name='chevron-forward' size={22} color={Colors.primary} />
       </TouchableOpacity>
@@ -77,8 +76,8 @@ const filter = () => {
 
     if (hasSelected !== newSelected) {
       // 값의 변경을 감지하여 애니메이션을 적용합니다.
-      flexWidth.value = withTiming(newSelected ? 150 : 0);
-      scale.value = withTiming(newSelected ? 1 : 0);
+      flexWidth.value = newSelected ? 150 : 0;
+      scale.value = newSelected ? 1 : 0;
     }
     setSelected(selectedItems);
   }, [items]);
@@ -94,14 +93,14 @@ const filter = () => {
 
   const animatedStyles = useAnimatedStyle(() => {
     return {
-      width: flexWidth.value,
-      opacity: flexWidth.value > 0 ? 1 : 0,
-      display: flexWidth.value > 0 ? "flex" : "none",
+      width: withTiming(flexWidth.value),
+      opacity: withTiming(flexWidth.value > 0 ? 1 : 0),
+      display: withTiming(flexWidth.value > 0 ? "flex" : "none"),
     };
   });
   const animatedText = useAnimatedStyle(() => {
     return {
-      transform: [{ scale: scale.value }],
+      transform: [{ scale: withTiming(scale.value) }],
     };
   });
 

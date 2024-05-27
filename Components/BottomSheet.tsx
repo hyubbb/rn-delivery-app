@@ -8,19 +8,15 @@ import {
 import Colors from "@/constants/Colors";
 import { Link } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import usePlaceStore from "@/store/placeStore";
 
 export type Ref = BottomSheetModal;
 
 const BottomSheet = forwardRef<Ref>((props, ref) => {
-  const snapPoints = useMemo(() => ["50%"], []);
+  const snapPoints = useMemo(() => ["40%"], []);
+  const { address } = usePlaceStore();
   const renderBackdrop = useCallback(
-    (props: any) => (
-      <BottomSheetBackdrop
-        {...props}
-        // appearsOnIndex={0}
-        disappearsOnIndex={-1}
-      />
-    ),
+    (props: any) => <BottomSheetBackdrop {...props} disappearsOnIndex={-1} />,
     []
   );
   const { dismiss } = useBottomSheetModal();
@@ -34,16 +30,16 @@ const BottomSheet = forwardRef<Ref>((props, ref) => {
       backdropComponent={renderBackdrop}
     >
       <View style={styles.contentContainer}>
-        <View style={styles.toggle}>
+        {/* <View style={styles.toggle}>
           <TouchableOpacity style={styles.toggleActive}>
             <Text style={styles.activeText}>Active</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.toggleInActive}>
             <Text style={styles.inActiveText}>InActive</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
-        <Text style={styles.subHeader}>Your Location</Text>
+        <Text style={styles.subHeader}>현재 위치</Text>
         <Link href={"/(modal)/location-search"} asChild>
           <TouchableOpacity>
             <View style={styles.item}>
@@ -52,7 +48,9 @@ const BottomSheet = forwardRef<Ref>((props, ref) => {
                 size={20}
                 color={Colors.medium}
               />
-              <Text style={styles.itemText}>use current location</Text>
+              <Text style={styles.itemText}>
+                {address !== "" ? address : "현재 위치 설정"}
+              </Text>
               <Ionicons
                 name='chevron-forward'
                 size={20}
@@ -61,7 +59,7 @@ const BottomSheet = forwardRef<Ref>((props, ref) => {
             </View>
           </TouchableOpacity>
         </Link>
-        <Text style={styles.subHeader}>Arrival time</Text>
+        <Text style={styles.subHeader}>도착 희망 시간</Text>
         <Link href={"/"} asChild>
           <TouchableOpacity>
             <View style={styles.item}>
@@ -70,7 +68,7 @@ const BottomSheet = forwardRef<Ref>((props, ref) => {
                 size={20}
                 color={Colors.medium}
               />
-              <Text style={styles.itemText}>use current location</Text>
+              <Text style={styles.itemText}>도착 시간 설정</Text>
               <Ionicons
                 name='chevron-forward'
                 size={20}
@@ -81,7 +79,7 @@ const BottomSheet = forwardRef<Ref>((props, ref) => {
         </Link>
 
         <TouchableOpacity style={styles.button} onPress={() => dismiss()}>
-          <Text style={styles.buttonText}>Confirm</Text>
+          <Text style={styles.buttonText}>확인</Text>
         </TouchableOpacity>
       </View>
     </BottomSheetModal>

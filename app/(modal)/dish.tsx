@@ -22,9 +22,9 @@ type DishProps = {
 };
 
 const Dish = () => {
-  const { id } = useLocalSearchParams();
+  const { id, name } = useLocalSearchParams();
+  const item = getDishById(+id!, name + "");
 
-  const item = getDishById(+id!);
   const router = useRouter();
   const { addProduct } = useBasketStore();
 
@@ -61,7 +61,9 @@ const Dish = () => {
             style={styles.fullButton}
             onPress={() => addToCart(item!)}
           >
-            <Text style={styles.footerText}>Add for ${item?.price}</Text>
+            <Text style={styles.footerText}>
+              장바구니 담기 {item?.price} 원
+            </Text>
           </TouchableOpacity>
         </View>
       </View>

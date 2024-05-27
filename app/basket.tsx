@@ -31,8 +31,8 @@ const Basket = () => {
   const [order, setOrder] = useState(false);
   const router = useRouter();
   const FEES = {
-    service: 2.99,
-    delivery: 5.99,
+    service: 3000,
+    delivery: 3000,
   };
 
   const startCheckout = () => {
@@ -76,14 +76,14 @@ const Basket = () => {
       {order && (
         <View style={{ flex: 1, alignItems: "center", marginTop: "50%" }}>
           <Text style={{ fontSize: 22, fontWeight: "bold" }}>
-            Thank you for your order!
+            주문해주셔서 감사합니다.
           </Text>
           <Link href='/' asChild>
             <TouchableOpacity
               style={styles.orderButton}
               onPress={() => setOrder(false)}
             >
-              <Text style={styles.footerText}>new Order</Text>
+              <Text style={styles.footerText}>주문하러 가기</Text>
             </TouchableOpacity>
           </Link>
         </View>
@@ -101,7 +101,7 @@ const Basket = () => {
                 <Text style={styles.quantity}>{item.quantity}x</Text>
                 <Image source={item.img} style={{ width: 50, height: 50 }} />
                 <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.price}>${item.price * item.quantity}</Text>
+                <Text style={styles.price}>{item.price * item.quantity}</Text>
               </View>
             )}
             renderHiddenItem={renderHiddenItem}
@@ -109,21 +109,17 @@ const Basket = () => {
           />
           <View style={styles.rowContainer}>
             <View style={styles.totalRow}>
-              <Text style={styles.total}>SubTotal</Text>
-              <Text style={{ fontSize: 18 }}>${total}</Text>
+              <Text style={styles.total}>비용</Text>
+              <Text style={{ fontSize: 18 }}>{total} 원</Text>
             </View>
             <View style={styles.totalRow}>
-              <Text style={styles.total}>Service fee</Text>
-              <Text style={{ fontSize: 18 }}>${FEES.service}</Text>
+              <Text style={styles.total}>배송료</Text>
+              <Text style={{ fontSize: 18 }}>{FEES.delivery} 원</Text>
             </View>
             <View style={styles.totalRow}>
-              <Text style={styles.total}>Delivery fee</Text>
-              <Text style={{ fontSize: 18 }}>${FEES.delivery}</Text>
-            </View>
-            <View style={styles.totalRow}>
-              <Text style={styles.total}>Order Total</Text>
+              <Text style={styles.total}>총 결제금액</Text>
               <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-                ${FEES.delivery + FEES.service + total}
+                {parseInt(FEES.delivery + total)} 원
               </Text>
             </View>
           </View>
@@ -136,7 +132,7 @@ const Basket = () => {
                 style={styles.fullButton}
                 onPress={startCheckout}
               >
-                <Text style={styles.footerText}>Order now</Text>
+                <Text style={styles.footerText}>주문하기</Text>
               </TouchableOpacity>
             </SafeAreaView>
           </View>

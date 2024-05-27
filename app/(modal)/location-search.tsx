@@ -1,11 +1,15 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import Colors from "@/constants/Colors";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import Geocoder from "react-native-geocoding";
 import * as Location from "expo-location";
+import usePlaceStore from "@/store/placeStore";
+
+Geocoder.init(process.env.EXPO_PUBLIC_GOOGLE_API_KEY || "");
 
 type Location = {
   latitude: number;
@@ -14,7 +18,15 @@ type Location = {
   longitudeDelta: number;
 };
 
-const GooglePlacesInput = ({ location, setLocation }) => {
+interface GooglePlacesInputProps {
+  location: Location;
+  setLocation: React.Dispatch<React.SetStateAction<Location>>;
+}
+
+const GooglePlacesInput = ({
+  location,
+  setLocation,
+}: GooglePlacesInputProps) => {
   return (
     <GooglePlacesAutocomplete
       placeholder='Search or move the map'
@@ -28,7 +40,6 @@ const GooglePlacesInput = ({ location, setLocation }) => {
           latitude: point.lat,
           longitude: point.lng,
         });
-        console.log(details, point);
       }}
       query={{
         key: process.env.EXPO_PUBLIC_GOOGLE_API_KEY,
@@ -67,9 +78,11 @@ const GooglePlacesInput = ({ location, setLocation }) => {
   );
 };
 const LocationSearch = () => {
-  const [errorMsg, setErrorMsg] = useState(null);
-
+  const [errorMsg, setErrorMsg] = useState("");
   const navigation = useNavigation();
+  const [address, setAddress] = useState("");
+  const [marker, setMarker] = useState({ latitude: 0, longitude: 0 });
+  const { addPlace } = usePlaceStore();
   const [location, setLocation] = useState({
     latitude: 0,
     longitude: 0,
@@ -96,20 +109,58 @@ const LocationSearch = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    // 역지오코딩 수행
+    if (marker.latitude !== 0) {
+      Geocoder.from(marker.latitude, marker.longitude)
+        .then((json) => {
+          const addressComponent = json.results[0].formatted_address;
+          setAddress(addressComponent);
+        })
+        .catch((error) => console.warn(error));
+    }
+  }, [marker]);
+
+  const handlePlace = () => {
+    addPlace(address);
+    navigation.goBack();
+  };
+
+  const handleMapPress = async (event: any) => {
+    const { latitude, longitude } = event?.nativeEvent?.coordinate;
+
+    // 새 마커 설정
+    setMarker({ latitude, longitude });
+    setLocation({ ...location, latitude, longitude });
+
+    try {
+      const json = await Geocoder.from(latitude, longitude);
+      const addressComponent = json.results[0].formatted_address;
+      setAddress(addressComponent);
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <GooglePlacesInput location={location} setLocation={setLocation} />
       <MapView
-        showsUserLocation={true}
+        // showsUserLocation={true}
         style={styles.map}
         region={location}
         initialRegion={location}
-      />
+        onPress={handleMapPress}
+      >
+        {marker && <Marker coordinate={marker} />}
+      </MapView>
 
       <View style={styles.absoluteBox}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>Confirm</Text>
-        </View>
+        <TouchableOpacity onPress={handlePlace}>
+          <View style={styles.button}>
+            <Text style={styles.buttonText}>위치 설정</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

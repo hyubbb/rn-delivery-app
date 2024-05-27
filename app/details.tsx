@@ -8,13 +8,14 @@ import {
   ListRenderItem,
   ScrollView,
   SafeAreaView,
+  Dimensions,
 } from "react-native";
 import React, { useLayoutEffect, useRef, useState } from "react";
 import ParallaxScrollView from "@/Components/ParallaxScrollView";
 // import ParallaxScrollView from "react-native-parallax-scroll-view";
 
 import Colors from "@/constants/Colors";
-import { restaurant } from "@/assets/data/restaurant";
+import { restaurants } from "@/assets/data/restaurant";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import Animated, {
@@ -23,7 +24,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import useBasketStore from "@/store/basketStore";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 
 type itemsProps = {
   id: number;
@@ -34,6 +35,10 @@ type itemsProps = {
 };
 
 const Details = () => {
+  const { id } = useLocalSearchParams();
+  const resId = +id!;
+  const restaurant = restaurants[resId];
+
   const navigation = useNavigation();
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -42,6 +47,7 @@ const Details = () => {
 
   const scrollRef = useRef<ScrollView>(null);
   const itemsRef = useRef<TouchableOpacity[]>([]);
+  const sectionListRef = useRef<SectionList>(null);
 
   const DATA = restaurant.food.map((item, index) => ({
     title: item.category,
@@ -58,6 +64,15 @@ const Details = () => {
     selected.measure((x) => {
       scrollRef.current?.scrollTo({ x: x - 16, y: 0, animated: true });
     });
+
+    setTimeout(() => {
+      if (sectionListRef.current) {
+        sectionListRef.current.scrollToLocation({
+          sectionIndex: index,
+          itemIndex: 0,
+        });
+      }
+    }, 100);
   };
 
   useLayoutEffect(() => {
@@ -101,30 +116,40 @@ const Details = () => {
     }
   };
 
-  const renderItem: ListRenderItem<itemsProps> = ({ item, index }) => (
-    <Link href={{ pathname: "/(modal)/dish", params: { id: item.id } }} asChild>
-      <TouchableOpacity style={styles.item}>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.dish}>{item.name}</Text>
-          <Text style={styles.dishText}>{item.info}</Text>
-          <Text style={styles.dishText}>{item.price}</Text>
-        </View>
-        <Image source={item.img} style={styles.dishImage} />
-      </TouchableOpacity>
-    </Link>
-  );
+  const renderItem: ListRenderItem<itemsProps> = ({ item, index }) => {
+    return (
+      <Link
+        href={{
+          pathname: "/(modal)/dish",
+          params: { name: item.name, id: resId },
+        }}
+        ㅇ
+        asChild
+      >
+        <TouchableOpacity style={styles.item}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.dish}>{item.name}</Text>
+            <Text style={styles.dishText}>{item.info}</Text>
+            <Text style={styles.dishText}>{item.price} 원</Text>
+          </View>
+          <Image source={item.img} style={styles.dishImage} />
+        </TouchableOpacity>
+      </Link>
+    );
+  };
 
   return (
     <>
       <ParallaxScrollView
         backgroundColor={"#fff"}
-        scrollEvent={onScroll}
+        // scrollEvent={onScroll}
+        onScroll={onScroll}
         style={{ flex: 1 }}
         parallaxHeaderHeight={250}
         stickyHeaderHeight={110}
-        renderBackground={() => (
-          <Image source={restaurant.img} style={styles.stickyImage} />
-        )}
+        renderBackground={() => {
+          return <Image source={restaurant.img} style={styles.stickyImage} />;
+        }}
         contentBackgroundColor={Colors.lightGrey}
         renderStickyHeader={() => (
           <View key='sticky-header' style={styles.stickySection}>
@@ -144,8 +169,9 @@ const Details = () => {
           <Text style={styles.restaurantDescription}>{restaurant.about}</Text>
           <SectionList
             contentContainerStyle={{ paddingBottom: 40, gap: 10 }}
-            keyExtractor={(item, index) => `${item.id + index}`}
+            keyExtractor={(item, index) => `${index}`}
             sections={DATA}
+            ref={sectionListRef}
             scrollEnabled={false}
             renderItem={renderItem}
             renderSectionHeader={({ section: { title, index } }) => (
@@ -214,8 +240,8 @@ const Details = () => {
             <Link href={"/basket"} asChild>
               <TouchableOpacity style={styles.fullButton}>
                 <Text style={styles.basket}>{items}</Text>
-                <Text style={styles.footerText}>View Basket</Text>
-                <Text style={styles.basketTotal}>Total: ${total}</Text>
+                <Text style={styles.footerText}>장바구니 확인</Text>
+                <Text style={styles.basketTotal}>총 금액: {total}원</Text>
               </TouchableOpacity>
             </Link>
           </SafeAreaView>
@@ -224,7 +250,7 @@ const Details = () => {
     </>
   );
 };
-
+const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   detailsContainer: {
     backgroundColor: "#fff",
@@ -273,6 +299,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 10,
+    paddingVertical: 10,
     gap: 10,
   },
   dishImage: {
@@ -293,7 +320,6 @@ const styles = StyleSheet.create({
   },
   segmentsShadow: {
     justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "#fff",
     shadowColor: "#000",
     paddingTop: 5,
@@ -301,7 +327,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 5,
     elevation: 5,
-    width: "100%",
+    width: width,
+    flex: 1,
     height: "100%",
   },
   segmentButton: {
