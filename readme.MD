@@ -1,7 +1,7 @@
 
 # 소개
 
----
+ 
 
 [클론코딩]
 
@@ -14,7 +14,7 @@
 
 # 스택
 
----
+ 
 
 ### React-native, Typescript, Zustand, Expo
 
@@ -26,8 +26,7 @@
 
 
 # 기능
-
----
+ 
 
 - `GooglePlacesAutocomplete` 를 이용해서 주소를 입력해서 검색가능
 - `native-geocoding` 을 이용하여 좌표값을 주소화 하여 현재 위치 저장
