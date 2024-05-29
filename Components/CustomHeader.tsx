@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   subTitle: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: "bold",
     borderRightColor: "red",
   },

@@ -90,7 +90,7 @@ function RootLayoutNav() {
           <Stack.Screen
             name='basket'
             options={{
-              headerTitle: "Basket",
+              headerTitle: "장바구니",
               headerLeft: () => (
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                   <Ionicons

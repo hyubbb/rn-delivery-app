@@ -8,7 +8,6 @@ export interface placeStore {
   address: string;
   addPlace: (place: string) => void;
   reduceProduct: (place: Product) => void;
-  // clearCart: () => void;
 }
 
 const usePlaceStore = create<placeStore>()((set) => ({
@@ -17,7 +16,6 @@ const usePlaceStore = create<placeStore>()((set) => ({
     set(() => ({ address: place }));
   },
   reduceProduct: (place) => {},
-  // clearCart: () => set({ product: [], items: 0, total: 0 }),
 }));
 
 export default usePlaceStore;

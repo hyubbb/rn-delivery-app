@@ -1,74 +1,64 @@
 [
-    {
-        "name": "Acai",
-        "count": 7
-    },
-    {
-        "name": "African",
-        "count": 9
-    },
-    {
-        "name": "Alcohol",
-        "count": 330
-    },
-    {
-        "name": "American",
-        "count": 201
-    },
-    {
-        "name": "BBQ",
-        "count": 73
-    },
-    {
-        "name": "Brunch",
-        "count": 118
-    },
-    {
-        "name": "Cakes",
-        "count": 36
-    },
-    {
-        "name": "Dessert",
-        "count": 282
-    },
-    {
-        "name": "Falafel",
-        "count": 30
-    },
-    {
-        "name": "German",
-        "count": 5
-    },
-    {
-        "name": "Healthy",
-        "count": 247
-    },
-    {
-        "name": "Indian",
-        "count": 112
-    },
-    {
-        "name": "Meal Deal",
-        "count": 129
-    },
-    {
-        "name": "Pancakes",
-        "count": 15
-    },
-    {
-        "name": "Pizza",
-        "count": 208
-    },
-    {
-        "name": "Soup",
-        "count": 8
-    },
-    {
-        "name": "Takeaways",
-        "count": 87
-    },
-    {
-        "name": "Wraps",
-        "count": 99
-    }
+  {
+    "name": "한식",
+    "count": 208
+  },
+  {
+    "name": "피자",
+    "count": 208
+  },
+  {
+    "name": "중식",
+    "count": 41
+  },
+  {
+    "name": "디저트",
+    "count": 282
+  },
+  {
+    "name": "일식",
+    "count": 28
+  },
+  {
+    "name": "샐러드",
+    "count": 7
+  },
+  {
+    "name": "주류",
+    "count": 330
+  },
+  {
+    "name": "아메리칸",
+    "count": 201
+  },
+  {
+    "name": "BBQ",
+    "count": 73
+  },
+  {
+    "name": "브런치",
+    "count": 118
+  },
+  {
+    "name": "케이크",
+    "count": 36
+  },
+
+  {
+    "name": "건강식",
+    "count": 247
+  },
+
+  {
+    "name": "스프",
+    "count": 8
+  },
+  {
+    "name": "포장",
+    "count": 87
+  },
+  {
+    "name": "Wraps",
+    "count": 99
+  }
 ]

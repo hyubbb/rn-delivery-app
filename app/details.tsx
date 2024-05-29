@@ -47,7 +47,6 @@ const Details = () => {
 
   const scrollRef = useRef<ScrollView>(null);
   const itemsRef = useRef<TouchableOpacity[]>([]);
-  const sectionListRef = useRef<SectionList>(null);
 
   const DATA = restaurant.food.map((item, index) => ({
     title: item.category,
@@ -64,15 +63,6 @@ const Details = () => {
     selected.measure((x) => {
       scrollRef.current?.scrollTo({ x: x - 16, y: 0, animated: true });
     });
-
-    setTimeout(() => {
-      if (sectionListRef.current) {
-        sectionListRef.current.scrollToLocation({
-          sectionIndex: index,
-          itemIndex: 0,
-        });
-      }
-    }, 100);
   };
 
   useLayoutEffect(() => {
@@ -123,7 +113,6 @@ const Details = () => {
           pathname: "/(modal)/dish",
           params: { name: item.name, id: resId },
         }}
-        ㅇ
         asChild
       >
         <TouchableOpacity style={styles.item}>
@@ -171,7 +160,6 @@ const Details = () => {
             contentContainerStyle={{ paddingBottom: 40, gap: 10 }}
             keyExtractor={(item, index) => `${index}`}
             sections={DATA}
-            ref={sectionListRef}
             scrollEnabled={false}
             renderItem={renderItem}
             renderSectionHeader={({ section: { title, index } }) => (

@@ -30,7 +30,7 @@ const ItemBox = () => (
       <TouchableOpacity style={styles.item}>
         <Ionicons name='arrow-down-outline' size={22} color={Colors.medium} />
         <View style={styles.itemText}>
-          <Text>Sort ITEM</Text>
+          <Text>정렬</Text>
         </View>
         <Ionicons name='chevron-forward' size={22} color={Colors.primary} />
       </TouchableOpacity>
@@ -38,23 +38,7 @@ const ItemBox = () => (
       <TouchableOpacity style={styles.item}>
         <Ionicons name='fast-food-outline' size={22} color={Colors.medium} />
         <View style={styles.itemText}>
-          <Text>Hygiene rating</Text>
-        </View>
-        <Ionicons name='chevron-forward' size={22} color={Colors.primary} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.item}>
-        <Ionicons name='pricetag-outline' size={22} color={Colors.medium} />
-        <View style={styles.itemText}>
-          <Text>Offers</Text>
-        </View>
-        <Ionicons name='chevron-forward' size={22} color={Colors.primary} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.item}>
-        <Ionicons name='nutrition-outline' size={22} color={Colors.medium} />
-        <View style={styles.itemText}>
-          <Text>Dietary</Text>
+          <Text>평점</Text>
         </View>
         <Ionicons name='chevron-forward' size={22} color={Colors.primary} />
       </TouchableOpacity>
