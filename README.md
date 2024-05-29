@@ -18,8 +18,14 @@
 
 ### React-native, Typescript, Zustand, Expo
 
+
+
+![1-ezgif com-optimize](https://github.com/hyubbb/rn-delivery-app/assets/32926006/5915c062-5048-4f91-a4fb-372f27a1b92b)
+
 ### `Google Api`를 이용한 주소설정 / `Reanimated` 를 이용한 필터기능
 
+
+![2](https://github.com/hyubbb/rn-delivery-app/assets/32926006/7004ced8-ae71-4719-8e41-cc5a4ee1e66c)
 
 ### `ParallaxScrollView`, `SwipeListView` 를 이용한 디테일 페이지와 주문페이지
 
