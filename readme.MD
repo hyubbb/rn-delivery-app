@@ -18,11 +18,8 @@
 
 ### React-native, Typescript, Zustand, Expo
 
-![1.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/71c29658-790c-447e-8748-e4539fd62f66/eea71498-d640-4430-87ee-fd423a52d327/1.webp)
-
 ### `Google Api`를 이용한 주소설정 / `Reanimated` 를 이용한 필터기능
 
-![2.webp](https://prod-files-secure.s3.us-west-2.amazonaws.com/71c29658-790c-447e-8748-e4539fd62f66/951684ab-17b8-44ed-8677-4e06b839c116/2.webp)
 
 ### `ParallaxScrollView`, `SwipeListView` 를 이용한 디테일 페이지와 주문페이지
 
